@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}在线{% endblock %}
+ {% block custom %}
+<div id="main">
+                <div class="about_page">
+                    <div class="about_items">
+                        <div class="grey_bar">
+                            <div id="breadcrumbs">
+                                <ul>
+                                    <li><a href="">Home</a></li>
+                                    <li>» </li>
+                                    <li>Article</li>
+                                </ul>
+                            </div>
+                            <h2>
+                                文章列表
+                            </h2>
+                        </div>
+                        <p>
+                            共{{articles.count}}篇文章.<br />
+                        </p>
+                        <br />
+                        {% for contact in articles %}
+                        <h2><a href="">{{contact.title}}</a></h2>
+                        <br />
+                        <P>{{contact.body}}</p>
+                        <div class="Skills_widget_stars"></div>
+                        <br />
+                        {% endfor %}
+                        <div class="pagination">
+
+                        </div>
+                    </div>
+                    <div class="Skills_items">
+                        <div class="block">
+                            <h3>
+                                热门</h3>
+                            <br />
+                           {% for article in articles %}
+                            <a href="" style="color:#CCC">
+                                {{article.title}}:{{article.body}}</a><br/>
+                            {% endfor %}
+                        </div>
+                        <div class="clearfix">
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+ {% endblock %}
+
+
+

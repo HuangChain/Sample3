@@ -1,0 +1,36 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>黄毓森的博客</title>
+    <link href="/static/style/style.css"  rel="stylesheet" />
+    {% block custom_css %}{% endblock %}
+    {% block custom_js %}{% endblock %}
+</head>
+<body>
+    <div id="wrapper">
+        <div id="mainbody">
+            <div id="navigation">
+                <div class="nav">
+                    <ul>
+
+
+                    </ul>
+                </div>
+            </div>
+           {% block custom %} {% endblock %}
+        </div>
+    </div>
+    <div class="clearfix">
+
+    </div>
+   <div id="footer">
+        <p>
+            <span><a href="#">Copyright</a> © EGrappler. More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">click here</a> - Rebuild by <a href="#" target="_blank">HCY</a></span>
+        </p>
+        <p>
+            <span>All Rights Reserved.</span></p>
+        <div class="clearfix">
+        </div>
+    </div>
+</body>
+</html>

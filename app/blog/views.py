@@ -1,5 +1,5 @@
 # coding:utf-8
-from flask import render_template, request, url_for, redirect, jsonify
+from flask import render_template, request, url_for, redirect, json, jsonify
 
 from . import blog
 from ..models import UserInfo, Blog
@@ -47,12 +47,24 @@ def edit(id):
 @blog.route('/publish/', methods=['GET', 'POST'])
 def publish():
     article_form = ArticleForm()
-    print "adsfd"
-    if article_form.validate_on_submit():
-        article = Blog(title=article_form.title.data,
-                       body=article_form.body.data)
+    if request.method == 'POST':
+        data = json.loads(request.form.get('data'))
+        article = Blog(title=data['title'],
+                       body=data['body'])
         db.session.add(article)
         db.session.commit()
-        print "adxszawfedg"
-        return ('1')
+        return jsonify({'result': 'ok'})
+    return render_template('publish.html', article_form=article_form)
+
+
+def article_like():
+    if request.method == 'POST':
+    article_form = ArticleForm()
+    if request.method == 'POST':
+        data = json.loads(request.form.get('data'))
+        article = Blog(title=data['title'],
+                       body=data['body'])
+        db.session.add(article)
+        db.session.commit()
+        return jsonify({'result': 'ok'})
     return render_template('publish.html', article_form=article_form)

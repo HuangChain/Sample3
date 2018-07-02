@@ -66,5 +66,21 @@
                     </div>
                 </div>
             </div>
-<script type="text/javascript" src="static/js/jquery.min.js'"  ></script>
+<script type="text/javascript" src="/static/js/jquery.min.js'"  ></script>
+     <script type="text/javascript">
+    $("#like").click(function(){
+        $.ajax({
+            url:"{{ url_for('article_like', id=article.id) }} ",
+            type:"POST",
+             success:function(e){
+                 if(e=='1'){
+                     alert("天上星亮晶晶🌟星星已送出，么么哒～");
+                    $(".Skills_widget_stars").append('<img class="widget_stars" src="/static/images/star.png" width="16" height="16">');
+                 }else{
+                     alert("数据库出错");
+                 }
+             }
+        });
+    });
+</script>
  {% endblock %}

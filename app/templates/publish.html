@@ -60,20 +60,27 @@
 <script type="text/javascript">
   $(".send-message").click(function()
   {
-      var title=$("#id_title").val();
-      var body=$("#id_body").val();
+      var title=$("#title").val();
+      var body=$("#body").val();
+      var data={
+          data:JSON.stringify({
+              'title':title,
+              'body':body
+          }),
+      }
+      console.log('变量：',title);
       $.ajax({
             url:"{{ url_for('blog.publish')}}",
             type:"POST",
-            data:{"title":title,"body":body},
-            dataType:"JSON",
+            data:data,
+            dataType:"JSON",//希望服务器返回json格式的数据
             success:function(e){
-                if (e=="1"){
+                if (e.result=="ok"){
                     alert("发送成功，请到博客列表页查看");
                     window.location.reload();
                 }else{
-                    $("input[name='title']").attr("placeholder",e.title);
-                    $("textarea[name='body']").attr("placeholder",e.body);
+                    alert("数据库错误");
+
                 }
             }
       });

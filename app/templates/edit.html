@@ -28,7 +28,7 @@
                             <div class="send_btn"  class="send-message">
                                 <a href="javascript:;" class="send-message">发送</a>
                             </div>
-                            <img src="static/images/send_btn.png" id="img-sending" alt="sending message..." />
+                            <img src="/static/images/send_btn.png" id="img-sending" alt="sending message..." />
                             <div id="mail-send-msg">
                             </div>
                         </div>
@@ -57,6 +57,33 @@
                     </div>
                 </div>
             </div>
-<script type="text/javascript" src="static/js/jquery.min.js"  ></script>
+<script type="text/javascript" src="/static/js/jquery.min.js"  ></script>
+<script type="text/javascript">
+  $(".send-message").click(function()
+  {
+      var title=$("#title").val();
+      var body=$("#body").val();
+      var data={
+          data:JSON.stringify({
+              'title':title,
+              'body':body
+          }),
+      }
+      $.ajax({
+            url:"{{ url_for('blog.edit', id=article.id) }}",
+            type:"POST",
+            data:data,
+            dataType:"JSON",
+            success:function(e){
+                if (e.result=="ok"){
+                    alert("修改成功，请到博客列表页查看");
+                    location.href="{{url_for('blog.articles')}}";
+                }else{
+                    alert("数据库错误");
+                }
+            }
+      });
+  });
+</script>
 
 {% endblock %}

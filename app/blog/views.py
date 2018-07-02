@@ -2,8 +2,8 @@
 from flask import render_template, request, url_for, redirect, json, jsonify
 
 from . import blog
-from ..models import UserInfo, Blog
-from .forms import ArticleForm
+from ..models import UserInfo, Blog, Message
+from .forms import ArticleForm, MesasgeForm
 from .. import db
 
 
@@ -24,24 +24,32 @@ def articles():
     return render_template('articles.html', posts=posts, pagination=pagination)
 
 
-@blog.route('/detail/<int:id>')
+@blog.route('/detail/<int:id>', methods=['GET', 'POST'])
 def detail(id):
     article = Blog.query.get_or_404(id)
-    return render_template('detail.html', article=article)
+    if request.method == 'POST':
+        article.likes += 1
+        db.session.add(article)
+        db.session.commit()
+        return jsonify({'result': 'ok'})
+    likes = range(article.likes)
+    return render_template('detail.html', article=article, likes=likes)
 
 
 @blog.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit(id):
     article = Blog.query.get_or_404(id)
     form = ArticleForm()
-    if form.validate_on_submit():
-        article.body = form.body.data
+    if request.method == 'POST':
+        data = json.loads(request.form.get('data'))
+        article.title = data['title']
+        article.body = data['body']
         db.session.add(article)
         db.session.commit()
-        return redirect(url_for('.articles', id=article.id))
+        return jsonify({'result': 'ok'})
     form.title.data = article.title
     form.body.data = article.body
-    return render_template('edit.html', article_form=form)
+    return render_template('edit.html', article_form=form, article=article)
 
 
 @blog.route('/publish/', methods=['GET', 'POST'])
@@ -57,14 +65,28 @@ def publish():
     return render_template('publish.html', article_form=article_form)
 
 
-def article_like():
+@blog.route('/delete_article/<int:id>', methods=['GET', 'POST'])
+def delete_article(id):
     if request.method == 'POST':
-    article_form = ArticleForm()
-    if request.method == 'POST':
-        data = json.loads(request.form.get('data'))
-        article = Blog(title=data['title'],
-                       body=data['body'])
-        db.session.add(article)
+        Blog.query.filter_by(id=id).delete()
         db.session.commit()
         return jsonify({'result': 'ok'})
-    return render_template('publish.html', article_form=article_form)
+
+
+@blog.route('/messages/', methods=['GET', 'POST'])
+def messages():
+    message_form = MesasgeForm()
+    if request.method == 'POST':
+        data = json.loads(request.form.get('data'))
+        message = Message(message=data['message'])
+        db.session.add(message)
+        db.session.commit()
+        return jsonify({'result': 'ok'})
+    page = request.args.get('page', 1, type=int)
+    pagination = Message.query.order_by(Message.created.desc()).paginate(
+        page, per_page=3,
+        error_out=False)
+    messages = pagination.items
+    return render_template('messages.html', messages=messages, pagination=pagination, message_form=message_form)
+
+

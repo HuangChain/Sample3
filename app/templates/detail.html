@@ -58,29 +58,46 @@
                                 </div>
                             </div>
                                 <div class="Skills_widget_stars">
-                                    <img class="widget_stars" src="static/images/star.png" width="16" height="16" alt="" />
-
+                                    <img class="widget_stars" src="/static/images/star.png" width="16" height="16" alt="" />
+                                     {% for i in likes %}
+                                    <img class="widget_stars" src="/static/images/star.png" width="16" height="16" alt="" />
+                                     {% endfor %}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-<script type="text/javascript" src="/static/js/jquery.min.js'"  ></script>
-     <script type="text/javascript">
-    $("#like").click(function(){
-        $.ajax({
-            url:"{{ url_for('article_like', id=article.id) }} ",
-            type:"POST",
-             success:function(e){
-                 if(e=='1'){
-                     alert("天上星亮晶晶🌟星星已送出，么么哒～");
-                    $(".Skills_widget_stars").append('<img class="widget_stars" src="/static/images/star.png" width="16" height="16">');
-                 }else{
-                     alert("数据库出错");
-                 }
-             }
-        });
+<script type="text/javascript" src="/static/js/jquery.min.js"  ></script>
+<script type="text/javascript">
+$("#like").click(function(){
+    $.ajax({
+        url:"{{ url_for('blog.detail', id=article.id) }} ",
+        type:"POST",
+        success:function(e){
+            if(e.result=='ok'){
+                alert("天上星亮晶晶🌟星星已送出，么么哒～");
+                $(".Skills_widget_stars").append('<img class="widget_stars" src="/static/images/star.png" width="16" height="16">');
+            }else{
+                alert("数据库出错");
+            }
+        }
     });
+});
+$("#delete").click(function(){
+    $.ajax({
+         url:"{{url_for('blog.delete_article', id=article.id)}}",
+         type:"POST",
+         success:function(e){
+            if(e.result=='ok'){
+                alert("删除成功，请至博客列表页查看");
+                location.href="{{url_for('blog.articles')}}";
+            }else{
+                alert("数据库出错");
+            }
+         }
+    });
+});
+
 </script>
  {% endblock %}

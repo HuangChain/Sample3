@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block custom %}
+<div id="main">
+                <div class="contact_page">
+                    <div class="contact_items">
+                        <div class="grey_bar">
+                            <div id="breadcrumbs">
+                                <ul>
+                                    <li><a href="">Home</a></li>
+                                    <li>» </li>
+                                    <li>Message</li>
+                                </ul>
+                            </div>
+                            <h2>
+                                留言板
+                            </h2>
+                        </div>
+                        <h2>
+                           历史留言(共{{ pagination.total }}条)</h2>
+                        <br />
+                        {% for message in messages %}
+                        <p>{{message.message}}</p>
+                        <p>{{message.created}}
+                        {% if current_user.is_authenticated %}
+                        <button type="button" id="pass" onclick="pass_message({{message.id}})">pass</button>
+                        <button type="button" id="refuse" onclick="refuse_message({{message.id}})">refuse</button>
+                        {% endif %}
+                        </p>
+                        <div class="Skills_widget_stars"></div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="contact_sidebar">
+                           <div class="testformblock">
+                               {{message_form.message}}
+                            <div class="clearfix">
+                            </div>
+                            <br />
+                            <div class="send_btn" id="send-message">
+                                <a href="#">Send</a>
+                            </div>
+                            <img src="/images/send_btn.png" id="img-sending" alt="sending message..." />
+                            <div id="mail-send-msg">
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                        </div>
+                    </div>
+                </div>
+</div>
+<script type="text/javascript" src="/static/js/jquery.min.js"  ></script>
+<script type="text/javascript">
+$("#send-message").click(function(){
+    var message=$("#message").val();
+    var data={
+      data:JSON.stringify({
+          'message':message,
+      }),
+  }
+    $.ajax({
+        url:"{{url_for('blog.messages')}}",
+        type:"POST",
+        data:data,
+        dataType:"JSON",
+        success:function(e){
+            if (e.result=="ok"){
+                alert("留言已发送，等待管理员审核...");
+                window.location.reload();
+            }else{
+                 alert("数据库错误");
+            }
+        },
+    });
+});
+
+
+function pass_message(id){
+  $.ajax({
+        url:"{{url_for('auth.verify')}}",
+        type:"POST",
+        data:{"status":1,"id":id},
+        success:window.location.reload(),
+  });
+}
+
+
+
+function refuse_message(id){
+  $.ajax({
+        url:"{{url_for('auth.verify')}}",
+        type:"POST",
+        data:{"status":3,"id":id},
+        success:function(e){
+            if(e=='1'){
+                window.location.reload();
+            }else{
+                alert("审核失败");
+            }
+        },
+  });
+}
+
+</script>
+{% endblock %}
+
+

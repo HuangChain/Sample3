@@ -18,6 +18,7 @@
 			<h3 style="color:#ccc;"></h3>
 			<h2>登 录</h2>
 			<form  action="{{ url_for('.login') }}" method="post">
+				{{ login_form.csrf_token }}
 				{{login_form.email}}
 				{{login_form.password}}
 			    <div class="send-button w3layouts agileits">

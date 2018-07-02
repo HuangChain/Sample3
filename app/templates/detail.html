@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+ {% block custom %}
+ <div id="main">
+                <div class="about_page">
+                    <div class="about_items">
+                        <div class="grey_bar">
+                            <div id="breadcrumbs">
+                                <ul>
+                                    <li><a href="">Article</a></li>
+                                    <li>» </li>
+                                    <li>Detail</li>
+                                </ul>
+                            </div>
+                            <h2>
+                               文章详情
+                            </h2>
+                        </div>
+                        <h2>
+                                {{article.title}}
+                            </h2>
+                        <br/>
+                        <p>
+                           {{article.body}}<br />
+                        </p>
+                        <br />
+                        <p>
+                           {{article.publish}}
+
+                            &nbsp;&nbsp;
+                            <a name="edit" href="{{ url_for('blog.edit',id=article.id) }}">编辑</a>
+                            <a name="delete" href="javascript:;" id="delete">删除</a>
+                            <br />
+
+                        </p>
+                        <br />
+                    </div>
+                    <div class="Skills_items">
+                        <div class="block">
+                            <h3>
+                                Note</h3>
+                            <br />
+                            <p>
+                                如果你觉得这篇文章不错，可以点击下面&nbsp;like&nbsp;点赞</p>
+                        </div>
+                        <div class="clearfix">
+                        </div>
+                        <br />
+                        <div class="block">
+                            <h3>
+                                More detail</h3>
+                            <div class="Skills_widget_items">
+                                <div class="Skills_widget_title">
+                                    浏览次数
+                                </div>
+                                <br/>
+                                <div class="Skills_widget_title">
+                                    给颗星星吧&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" id="like">like</button>
+                                </div>
+                            </div>
+                                <div class="Skills_widget_stars">
+                                    <img class="widget_stars" src="static/images/star.png" width="16" height="16" alt="" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<script type="text/javascript" src="static/js/jquery.min.js'"  ></script>
+ {% endblock %}

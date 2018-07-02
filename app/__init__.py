@@ -15,14 +15,13 @@ def create_app(config_name):
 
     db.init_app(app)
 
-    # 蓝本在工厂函数create_app()中注册到程序上
     from .blog import blog as blog_blueprint
     app.register_blueprint(blog_blueprint)
 
-    from .manager import manager as manager_blueprint
-    app.register_blueprint(manager_blueprint)
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
 
     # 附加路由和自定义的错误页面
 
-    return app  # 工厂函数返回创建的程序示例
+    return app
 

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block custom %}
+<div id="main">
+                <div class="contact_page">
+                    <div class="contact_items">
+                        <div class="grey_bar">
+                            <div id="breadcrumbs">
+                                <ul>
+                                    <li><a href="">Home</a></li>
+                                    <li>» </li>
+                                    <li>Publish</li>
+                                </ul>
+                            </div>
+                            <h2>
+                                编辑文章
+                            </h2>
+                        </div>
+                        <div class="formblock">
+                        </div>
+                        <div class="formblock">
+                            {{article_form.title}}
+                        </div>
+                        <div class="formblock">
+                            {{article_form.body}}
+                            <div class="clearfix">
+                            </div>
+                            <br />
+                            <div class="send_btn"  class="send-message">
+                                <a href="javascript:;" class="send-message">发送</a>
+                            </div>
+                            <img src="static/images/send_btn.png" id="img-sending" alt="sending message..." />
+                            <div id="mail-send-msg">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact_sidebar">
+                        <div id="address">
+                            <br/>
+                            <h2>Live beautifully</h2> 
+                            <ul>
+                                <li>dream passionately</li>
+                                <li>love completely</li>
+                                <li>❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️️️</li>
+                                <li>💕💕💕💕💕💕💕💕💕💕️</li>
+                                <li>
+
+                                    <br />
+                                </li>
+                                <li>If you wish to succeed, you should use persistence as your good friend, experience as your reference, prudence as your brother and hope as your sentry. </li>
+                                <li>Don't say love easily, promises the promise is debt!</li>
+                                <li>To the world of governance in the talent, into the world of people in the enlightenment.</li>
+                                <li>There's only one corner of the universe you can be sure of improving, and that's your own self.</li>
+                            </ul>
+                        </div>
+                        <div class="clearfix">
+                        </div>
+                    </div>
+                </div>
+            </div>
+<script type="text/javascript" src="static/js/jquery.min.js"  ></script>
+
+{% endblock %}

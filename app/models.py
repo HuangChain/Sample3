@@ -24,7 +24,7 @@ class Blog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64))
     body = db.Column(db.Text())
-    publish = db.Column(db.DateTime, default=datetime.utcnow)
+    publish = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     likes = db.Column(db.Integer, default=0)
 
     def __repr__(self):

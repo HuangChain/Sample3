@@ -1,13 +1,13 @@
 # coding:utf-8
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user
-from . import manager
+from . import auth
 from .. import db
 from .forms import LoginForm
 from ..models import UserInfo
 
 
-@manager.route('/login', methods=['GET', 'POST'])
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
     login_form = LoginForm()
     if login_form.validate_on_submit():

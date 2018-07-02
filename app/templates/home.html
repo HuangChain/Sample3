@@ -34,7 +34,7 @@
                         <br />
                         {% for blog in blogs %}
                         <ul>
-                            <li><a href="">
+                            <li><a href="{{ url_for('blog.detail',id=blog.id) }}">
                                 {{blog.title}}:{{blog.body|slice(2)}}</a></li>
                         </ul>
                         {% endfor %}

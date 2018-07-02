@@ -1,8 +1,10 @@
 # coding:utf-8
-from flask import render_template
+from flask import render_template, request, url_for, redirect, jsonify
 
 from . import blog
 from ..models import UserInfo, Blog
+from .forms import ArticleForm
+from .. import db
 
 
 @blog.route('/')
@@ -12,7 +14,45 @@ def home():
     return render_template('home.html', userinfo=userinfo, blogs=blogs)
 
 
-@blog.route('/articles')
+@blog.route('/articles/')
 def articles():
-    articles = Blog.query.all()
-    return render_template('articles.html', articles=articles)
+    page = request.args.get('page', 1, type=int)
+    pagination = Blog.query.order_by(Blog.publish.desc()).paginate(
+        page, per_page=3,
+        error_out=False)
+    posts = pagination.items
+    return render_template('articles.html', posts=posts, pagination=pagination)
+
+
+@blog.route('/detail/<int:id>')
+def detail(id):
+    article = Blog.query.get_or_404(id)
+    return render_template('detail.html', article=article)
+
+
+@blog.route('/edit/<int:id>', methods=['GET', 'POST'])
+def edit(id):
+    article = Blog.query.get_or_404(id)
+    form = ArticleForm()
+    if form.validate_on_submit():
+        article.body = form.body.data
+        db.session.add(article)
+        db.session.commit()
+        return redirect(url_for('.articles', id=article.id))
+    form.title.data = article.title
+    form.body.data = article.body
+    return render_template('edit.html', article_form=form)
+
+
+@blog.route('/publish/', methods=['GET', 'POST'])
+def publish():
+    article_form = ArticleForm()
+    print "adsfd"
+    if article_form.validate_on_submit():
+        article = Blog(title=article_form.title.data,
+                       body=article_form.body.data)
+        db.session.add(article)
+        db.session.commit()
+        print "adxszawfedg"
+        return ('1')
+    return render_template('publish.html', article_form=article_form)

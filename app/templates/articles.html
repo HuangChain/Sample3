@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}在线{% endblock %}
+{% block title %}文章列表{% endblock %}
  {% block custom %}
 <div id="main">
                 <div class="about_page">
@@ -17,18 +17,28 @@
                             </h2>
                         </div>
                         <p>
-                            共{{articles.count}}篇文章.<br />
+                            共篇{{ pagination.total }}文章.<br />
                         </p>
                         <br />
-                        {% for contact in articles %}
-                        <h2><a href="">{{contact.title}}</a></h2>
+                        {% for contact in posts %}
+                        <h2><a href="{{ url_for('blog.detail',id=contact.id) }}">{{contact.title}}</a></h2>
                         <br />
                         <P>{{contact.body}}</p>
                         <div class="Skills_widget_stars"></div>
                         <br />
                         {% endfor %}
                         <div class="pagination">
-
+                            <span class="step-links">
+                            {% if pagination.has_prev %}
+                                <a href="?page={{ pagination.previous_num }}">previous</a>
+                            {% endif %}
+                            <span class="current">
+                                Page {{ pagination.page }} of {{ pagination.pages}}.
+                            </span>
+                            {% if pagination.has_next %}
+                                <a href="?page={{ pagination.next_num }}">next</a>
+                            {% endif %}
+                        </span>
                         </div>
                     </div>
                     <div class="Skills_items">
@@ -36,7 +46,7 @@
                             <h3>
                                 热门</h3>
                             <br />
-                           {% for article in articles %}
+                           {% for article in posts %}
                             <a href="" style="color:#CCC">
                                 {{article.title}}:{{article.body}}</a><br/>
                             {% endfor %}

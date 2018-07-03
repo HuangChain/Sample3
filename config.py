@@ -18,10 +18,9 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = \
     'mysql+pymysql://root:password@localhost/mydata'
-    # 'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
-    
 
-class TestingConfig(Config):    # ???????????????
+    
+class TestingConfig(Config):   
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
               'sqlite:///' + os.path.join(basedir, 'data-test.sqlite')

@@ -1,5 +1,5 @@
 # coding:utf-8
-from flask import render_template, request, url_for, redirect, json, jsonify
+from flask import render_template, request, json, jsonify
 
 from . import blog
 from ..models import UserInfo, Blog, Message
@@ -21,7 +21,8 @@ def articles():
         page, per_page=3,
         error_out=False)
     posts = pagination.items
-    return render_template('articles.html', posts=posts, pagination=pagination)
+    hot_articles = Blog.query.order_by(Blog.likes.desc())[:3]
+    return render_template('articles.html', posts=posts, pagination=pagination, hot_articles=hot_articles)
 
 
 @blog.route('/detail/<int:id>', methods=['GET', 'POST'])
@@ -83,7 +84,7 @@ def messages():
         db.session.commit()
         return jsonify({'result': 'ok'})
     page = request.args.get('page', 1, type=int)
-    pagination = Message.query.order_by(Message.created.desc()).paginate(
+    pagination = Message.query.filter_by(status=0).paginate(
         page, per_page=3,
         error_out=False)
     messages = pagination.items

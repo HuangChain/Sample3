@@ -4,14 +4,13 @@ from flask_login import login_user, login_required, logout_user
 from . import auth
 from .. import db
 from .forms import LoginForm
-from ..models import UserInfo
+from ..models import UserInfo, Message
 
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     login_form = LoginForm()
     if request.method == 'POST':
-        print (login_form.validate_on_submit())
         if login_form.validate_on_submit():
             user = UserInfo.query.filter_by(email=login_form.email.data).first()
             if user.password == login_form.data['password']:
@@ -30,6 +29,14 @@ def logout():
     return redirect(url_for('blog.home'))
 
 
-@auth.route('/verify')
+@auth.route('/verify/', methods=['GET', 'POST'])
 def verify():
-    pass
+    if request.method == 'POST':
+        message = Message.query.filter_by(id=request.form['id']).first()
+        status = request.form['status']
+        message.status=int(status)
+        db.session.add(message)
+        db.session.commit()
+        return "1"
+
+

@@ -17,19 +17,6 @@ class UserInfo(UserMixin, db.Model):
     hobby = db.Column(db.String(64))
     address = db.Column(db.String(64))
 
-    def __init__(self, **kwargs):
-        super(UserInfo, self).__init__(**kwargs)
-        if self.id is None:
-            user = UserInfo(id=1,
-                            username=u'黄毓森',
-                            password='password',
-                            email='1241908493@qq.com',
-                            position='python web',
-                            hobby=u'摄影、旅行、看书',
-                            address=u'成都')
-            db.session.add(user)
-            db.session.commit()
-
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -51,7 +38,7 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     message = db.Column(db.String(300))
     created = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    status = db.Column(db.Boolean, default=0)
+    status = db.Column(db.Integer, default=0)
 
     def __repr__(self):
         return self.message

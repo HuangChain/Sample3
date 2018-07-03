@@ -18,15 +18,14 @@
                         <li>|</li>
                         <li><a href="{{ url_for('blog.publish')}}" class='active'><span>Publish</span></a></li>
                         <li>|</li>
-                        <li><a href="{{ url_for('blog.publish')}}" class='active'><span>Verify</span></a></li>
-                        <li>|</li>
                         {% else %}
                         <li>|</li>
                         <li><a href="{{ url_for('auth.login')}}" class='active'><span>Login</span></a></li>
+                        <li>|</li>
                         {% endif %}
                         <li><a href="{{ url_for('blog.articles')}}" class='active'><span>Article</span></a></li>
                         <li>|</li>
-                        <li><a href="{{ url_for('blog.articles')}}" class='active'><span>Picture</span></a></li>
+                        <li><a href="{{ url_for('picture.pictures')}}" class='active'><span>Picture</span></a></li>
                         <li>|</li>
                         <li><a href="{{ url_for('blog.messages')}}" class='active'><span>Message</span></a></li>
                         <li>|</li>

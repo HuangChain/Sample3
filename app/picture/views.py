@@ -1,23 +1,23 @@
 # coding:utf-8
-from flask_uploads import UploadSet, IMAGES, configure_uploads, ALL
-from flask import request, Flask, redirect, url_for, render_template
+
+from flask import request, redirect, url_for, render_template
+from . import picture
+from .forms import PictureForm
 import os
 
 
-@picture.route('/upload', methods=['GET', 'POST'])
-def upload():
-    if request.method == 'POST' and 'photo' in request.files:
-        filename = photos.save(request.files['photo'])
-        rec = Photo(filename=filename, user=g.user.id)
-        rec.store()
-        return redirect(url_for('show', id=rec.id))
-    return render_template('upload.html')
+basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 
-@picture.route('/photo/<id>')
-def show(id):
-    photo = Photo.load(id)
-    if photo is None:
-        abort(404)
-    url = photos.url(photo.filename)
-    return render_template('show.html', url=url, photo=photo)
+@picture.route('/pictures', methods=['GET', 'POST'])
+def pictures():
+    form = PictureForm()
+    if request.method == 'POST':
+        img = request.files.get('upload')
+        path = os.path.join(basedir, 'static/media/')+img.filename
+        img.save(path)
+        return redirect(url_for('.pictures'))
+    a = os.walk(os.path.join(basedir, 'static/media/'))
+    b = list(a)[0][2]
+    return render_template('pictures.html', form=form, pictures=b)
+

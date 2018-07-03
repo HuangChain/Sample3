@@ -8,8 +8,6 @@ class Config:
     SECRET_KEY = 'hard to guess string'
     SQLALCHEMY_COMMIT_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    UPLOADED_FILES_DEST ＝ os.path.dirname(os.path.abspath(__file__))
-    UPLOADED_FILES_ALLOW = IMAGES
 
     @staticmethod
     def init_app(app):
